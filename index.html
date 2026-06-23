@@ -82,7 +82,11 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
   object-fit:cover;
   opacity:0;
   transition:opacity .4s ease;
+  /* Hide native controls & context menu on all browsers/devices */
+  pointer-events:none;
 }
+/* Re-enable pointer events only on the gate overlay so tap still works */
+#entry-gate{pointer-events:auto;}
 #entry-poster{
   position:absolute;
   inset:0;
@@ -91,8 +95,7 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
   object-fit:cover;
   display:block;
 }
-/* Completely invisible overlay since video has its own instructions */
-#play-overlay{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;}
+#play-overlay{position:absolute;inset:0;z-index:2;pointer-events:auto;opacity:0;cursor:pointer;}
 #entry-gate.fade-out{opacity:0;pointer-events:none}
 
 #main-content{display:none}
@@ -116,23 +119,23 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 .hero-card{position:relative;z-index:3;max-width:620px;width:100%;background:rgba(253,251,247,.93);backdrop-filter:blur(18px);border:1px solid rgba(194,168,120,.32);border-radius:2.2rem;padding:clamp(3rem,6vw,4rem) clamp(1.5rem,5vw,3rem);box-shadow:var(--shadow),0 0 0 4px rgba(126, 153, 128,.1) inset;text-align:center;display:flex;flex-direction:column;align-items:center;overflow:visible}
 
 .ek-onkar-sign {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   color: var(--gold);
   line-height: 1;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   text-shadow: 0 4px 16px rgba(194,168,120,0.35);
   animation: float 4s ease-in-out infinite;
 }
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 
-.ardas-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--sage-dark);letter-spacing:.02em;line-height:1.6;margin-bottom:1.2rem;font-style:italic}
-.parent-sub{font-family:'Montserrat',sans-serif;font-size:.65rem;letter-spacing:.15em;color:var(--text-mid);text-transform:uppercase;margin-top:.2rem;display:block; line-height: 1.4;}
+.ardas-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--sage-dark);letter-spacing:.02em;line-height:1.6;margin-bottom:2.5rem;font-style:italic}
+.parent-sub{font-family:'Montserrat',sans-serif;font-size:.65rem;letter-spacing:.15em;color:var(--text-mid);text-transform:uppercase;margin-top:.4rem;display:block; line-height: 1.4;}
 
-.couple-name{font-family:'Pinyon Script',cursive;font-size:clamp(4.5rem,13vw,7.5rem);line-height:1;display:block;width:100%;text-align:center;overflow:visible;white-space:nowrap;padding:0 .5rem;}
-.amp-row{display:flex;align-items:center;justify-content:center;gap:1rem;margin:0.5rem 0;width:100%}
+.couple-name{font-family:'Pinyon Script',cursive;font-size:clamp(2.8rem,9vw,5.5rem);line-height:1;display:block;width:100%;text-align:center;overflow:visible;white-space:nowrap;padding:0 .5rem;}
+.amp-row{display:flex;align-items:center;justify-content:center;gap:1rem;margin:1rem 0;width:100%}
 .amp-line{height:1px;width:44px;background:var(--border)}
 .amp{font-family:'Pinyon Script',cursive;font-size:3rem;color:var(--gold);line-height:1}
-.hashtag{display:block; font-family:'Montserrat', sans-serif; letter-spacing:0.2em; font-size:0.8rem; color:var(--sage-dark); margin-top:1.5rem;}
+.hashtag{display:block; font-family:'Montserrat', sans-serif; letter-spacing:0.2em; font-size:0.8rem; color:var(--sage-dark); margin-top:2.5rem;}
 
 /* Scroll Down Indicator */
 .scroll-indicator{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;z-index:10;opacity:0;animation:fadeIn 1.5s forwards 1.5s;cursor:pointer}
@@ -324,6 +327,80 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 .footer-credit{margin-top:4rem;font-family:'Montserrat',sans-serif;font-size:.68rem;letter-spacing:.14em;color:rgba(255,255,255,.45)}
 .footer-credit a{color:var(--gold-light);text-decoration:none}
 
+/* ── ENVELOPE ────────────────────────────────── */
+.envelope-wrapper {
+  position: relative;
+  width: 90vw;
+  max-width: 520px;
+  margin: 0 auto;
+  display: block;
+  line-height: 0;
+  overflow: visible;
+  padding-top: clamp(8rem, 24vw, 14rem);
+  box-sizing: border-box;
+}
+.envelope-wrapper .env-base,
+.envelope-wrapper .env-overlay {
+  width: 100%;
+  max-width: none;
+  height: auto;
+  display: block;
+}
+.env-base {
+  position: relative;
+  z-index: 1;
+}
+.env-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.env-letter-wrap {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  width: 60%;
+  z-index: 2;
+  transform: translateX(-50%) translateY(30%);
+  opacity: 0;
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.8s ease;
+  will-change: transform, opacity;
+}
+.envelope-wrapper.open .env-letter-wrap {
+  transform: translateX(-50%) translateY(-60%);
+  opacity: 1;
+  z-index: 2;
+}
+.env-letter {
+  padding: 1.5rem 1.2rem;
+  margin: 0;
+  background: linear-gradient(180deg, #fffef8 0%, #faf6ed 100%);
+  border: 1px solid rgba(194,168,120,0.18);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  display: block;
+  line-height: 1.55;
+  overflow: hidden;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--text-dark);
+  text-align: center;
+}
+.env-letter-title {
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(1.4rem, 4vw, 1.8rem);
+  color: var(--gold);
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+.env-letter-text {
+  font-size: clamp(0.72rem, 2vw, 0.85rem);
+  margin: 0;
+  color: var(--text-mid);
+  line-height: 1.55;
+}
+
 /* ── RESPONSIVE ──────────────────────────────────── */
 @media(max-width:480px){
   .laavan-grid{grid-template-columns:1fr}
@@ -360,7 +437,12 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
     id="entry-video"
     playsinline
     webkit-playsinline
+    x-webkit-airplay="deny"
+    disablePictureInPicture
+    controlsList="nodownload nofullscreen noremoteplayback"
     preload="auto"
+    muted
+    style="pointer-events:none;"
   >
     <source src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/Best%20Entry%20Video%20(46).mp4" type="video/mp4">
   </video>
@@ -377,9 +459,9 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 
       <p class="ardas-text">"They alone are called husband and wife, who have one soul in two bodies."<br>— Guru Amar Das Ji</p>
       <p class="ardas-text">With the heavenly blessings of Grand Parents <br>
-      Late Sdn. Trilochan Kaur & Sdr. Hardeep Singh<br> We request the honour of your presence at the wedding celebrations of</p>
+      Late Sdn. Trilochan Kaur & Sdr. Hardeep Singh Khanna<br> We request the honour of your presence at the wedding celebrations of</p>
 
-      <span class="couple-name shimmer">Mehak</span>
+      <span class="couple-name shimmer">Mehak Bedi</span>
       <span class="parent-sub">Daughter of Satinder Bedi & Dr. Narinder Bedi</span>
 
       <div class="amp-row">
@@ -388,7 +470,7 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
         <div class="amp-line"></div>
       </div>
       
-      <span class="couple-name shimmer">Karan</span>
+      <span class="couple-name shimmer">Karan Khanna</span>
       <span class="parent-sub">Son of Harpreet Kaur & Harpreet Singh Khanna</span>
 
       <span class="hashtag">#MehakdaKaran</span>
@@ -522,8 +604,8 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
           <div class="evt-info">
             <span class="evt-name">Sangeet Night</span>
             <span class="evt-time">7:00 PM onwards</span>
-            <span class="evt-addr">Grand Imperia North Banquet, Ashok Vihar, Delhi</span>
-            <a class="dir-btn" href="https://maps.app.goo.gl/StkfBcTadGfAaQLe9" target="_blank" rel="noopener">
+            <span class="evt-addr">At Residence:<br>Mahanta da Gurudwara, Ohri Gate, Batala</span>
+            <a class="dir-btn" href="https://maps.app.goo.gl/VHUdNN3eY66otUvcA?g_st=iw" target="_blank" rel="noopener">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               View on Map
             </a>
@@ -676,123 +758,6 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
       </section>
     </section>
 
-    <!-- ══ WEDDING COLORS ══ -->
-    <section id="colors-section" class="tc reveal">
-      <span class="sec-label">Dress to Celebrate</span>
-      <h2 class="sec-heading" style="font-family: 'Great Vibes', cursive;">Wedding Colors</h2>
-      <p style="font-style:italic;color:var(--text-mid);font-size:1.05rem;margin-bottom:2.5rem;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7">
-        We'd love to see you dressed in our palette — tap a shade to pick your look.
-      </p>
-
-      <div class="wc-inner">
-        <div class="wc-palette-board">
-
-          <div class="wc-board-header">
-            <div class="wc-board-dots">
-              <div class="wc-board-dot" style="background:#7A8C6A"></div>
-              <div class="wc-board-dot" style="background:#4A5E3A"></div>
-              <div class="wc-board-dot" style="background:#B5C49A"></div>
-            </div>
-          </div>
-
-          <p class="wc-row-label">Deeps & Richness</p>
-          <div class="wc-row">
-            <div class="wc-chip reveal reveal-d1">
-              <div class="wc-chip-color" style="background:#3D5230" data-name="Evergreen" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Evergreen</span>
-            </div>
-            <div class="wc-chip reveal reveal-d1">
-              <div class="wc-chip-color" style="background:#4A5E3A" data-name="Forest" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Forest</span>
-            </div>
-            <div class="wc-chip reveal reveal-d2">
-              <div class="wc-chip-color" style="background:#3A4E32" data-name="Pine" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Pine</span>
-            </div>
-            <div class="wc-chip reveal reveal-d2">
-              <div class="wc-chip-color" style="background:#5A7248" data-name="Moss" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Moss</span>
-            </div>
-            <div class="wc-chip reveal reveal-d3">
-              <div class="wc-chip-color" style="background:#617844" data-name="Hunter" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Hunter</span>
-            </div>
-          </div>
-
-          <p class="wc-row-label">Mids & Muted Greens</p>
-          <div class="wc-row">
-            <div class="wc-chip reveal reveal-d1">
-              <div class="wc-chip-color" style="background:#7A8C6A" data-name="Sage" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Sage</span>
-            </div>
-            <div class="wc-chip reveal reveal-d1">
-              <div class="wc-chip-color" style="background:#8A9E6E" data-name="Olive" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Olive</span>
-            </div>
-            <div class="wc-chip reveal reveal-d2">
-              <div class="wc-chip-color" style="background:#9EB48A" data-name="Lichen" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Lichen</span>
-            </div>
-            <div class="wc-chip reveal reveal-d2">
-              <div class="wc-chip-color" style="background:#A8C4A8" data-name="Juniper" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Juniper</span>
-            </div>
-            <div class="wc-chip reveal reveal-d3">
-              <div class="wc-chip-color" style="background:#B5C49A" data-name="Fern" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Fern</span>
-            </div>
-          </div>
-
-          <p class="wc-row-label">Lights & Pastels</p>
-          <div class="wc-row">
-            <div class="wc-chip reveal reveal-d1">
-              <div class="wc-chip-color" style="background:#BACBB0" data-name="Pistachio" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Pistachio</span>
-            </div>
-            <div class="wc-chip reveal reveal-d1">
-              <div class="wc-chip-color" style="background:#C8D8B8" data-name="Celadon" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Celadon</span>
-            </div>
-            <div class="wc-chip reveal reveal-d2">
-              <div class="wc-chip-color" style="background:#C0D4C0" data-name="Meadow" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Meadow</span>
-            </div>
-            <div class="wc-chip reveal reveal-d2">
-              <div class="wc-chip-color" style="background:#D6E3D0" data-name="Dew" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Dew</span>
-            </div>
-            <div class="wc-chip reveal reveal-d3">
-              <div class="wc-chip-color" style="background:#DDE8CC" data-name="Mist" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Mist</span>
-            </div>
-          </div>
-
-          <p class="wc-row-label">Neutrals & Whites</p>
-          <div class="wc-row">
-            <div class="wc-chip reveal reveal-d1">
-              <div class="wc-chip-color" style="background:#E8EDE0" data-name="Ivory" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Ivory</span>
-            </div>
-            <div class="wc-chip reveal reveal-d2">
-              <div class="wc-chip-color" style="background:#EEF3E8;border:1px solid #DDE8CC" data-name="Cream" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Cream</span>
-            </div>
-            <div class="wc-chip reveal reveal-d2">
-              <div class="wc-chip-color" style="background:#F5F8F2;border:1px solid #DDE8CC" data-name="Pearl" onclick="pickColor(this)"></div>
-              <span class="wc-chip-name">Pearl</span>
-            </div>
-          </div>
-
-          <div class="wc-selected-badge" id="wc-badge">
-            <span class="wc-badge-label">Your picked shade</span>
-            <span class="wc-badge-text" id="wc-badge-text" style="color:var(--text-light);font-style:italic">Tap any swatch above ↑</span>
-          </div>
-        </div>
-      </div>
-
-      <span class="wc-note">✦  All shades of green are welcome  ✦</span>
-    </section>
-
     <section id="laavan-section" class="tc">
       <div class="reveal">
         <span class="sec-label">The Sacred Circles</span>
@@ -908,9 +873,18 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
           </button>
 
           <div class="rsvp-divider">— Special Note —</div>
-          <p style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--sage-dark); font-style:italic; text-align:center; margin-bottom:2rem;">
-            Please RSVP to help us prepare for your presence and make this celebration truly memorable.
-          </p>
+
+          <div class="rsvp-divider">— Contact Details —</div>
+          <div class="contact-plain">
+            <strong>Family & Compliments From:</strong>
+            <span>Mahant Narinder Parkash Bedi</span>
+            <span>+91 9814630433, +91 9914130433</span>
+            <br>
+            <strong>RSVP Details:</strong>
+            <span style="font-size: 0.95rem;">Sardarni & Sardar Manpreet Bedi</span>
+            <br>
+            <span style="font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--sage); font-style:italic;">With Love and Blessings from the Nanka & Dadka Families</span>
+          </div>
 
         </div>
 
@@ -919,6 +893,31 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
           <span class="success-title">Waheguru Bless You!</span>
           <p class="success-msg">We're so grateful and excited to celebrate with you. Our families will be in touch soon with all the details.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- ══ SPECIAL NOTE — ENVELOPE ══ -->
+    <section id="envelope-section" class="tc" style="padding:5rem 1.5rem 3rem;background:var(--cream);overflow:visible;">
+      <div class="reveal" style="margin-bottom:2rem">
+        <span class="sec-label">With Love</span>
+        <h2 class="sec-heading" style="font-family:'Great Vibes',cursive;">A Special Note</h2>
+      </div>
+      <div class="envelope-wrapper" id="envelope-anim">
+        <img class="env-base" src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/supriya%20and%20dhruv/envelope.png" alt="Envelope">
+        <div class="env-letter-wrap">
+          <div class="env-letter">
+            <h3 class="env-letter-title">Dear Everyone</h3>
+            <p class="env-letter-text">
+              My sister's wedding is finally here! ✨<br><br>
+              Your presence and blessings would make<br>
+              our special day even more memorable.<br>
+              Please come and celebrate with us. 💖<br><br>
+              <em>with lots of love,</em><br>
+              <strong style="color:var(--sage-dark);font-size:clamp(0.82rem,2.2vw,0.95rem)">Japneet Bedi 💕</strong>
+            </p>
+          </div>
+        </div>
+        <img class="env-overlay" src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/supriya%20and%20dhruv/envlope2.png" alt="Envelope Overlay">
       </div>
     </section>
 
@@ -933,7 +932,7 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
         <span class="hashtag" style="color:var(--gold-pale);">#MehakdaKaran</span>
         <div class="footer-credit" style="margin-top:3.5rem">
           MADE WITH <span style="color:#e74c3c">♥</span> BY
-          <a href="" target="_blank">@INVITEVIBES</a>
+          <a href="https://www.instagram.com/invitevibes_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">@INVITEVIBES</a>
         </div>
       </div>
     </section>
@@ -1307,6 +1306,28 @@ function initReveal() {
 }
 
 /* ══════════════════════════════════════════════════
+   ENVELOPE ANIMATION
+══════════════════════════════════════════════════ */
+let envelopeIo = null;
+function initEnvelopeAnim() {
+  const envelope = document.getElementById('envelope-anim');
+  if (!envelope) return;
+  if (envelopeIo) envelopeIo.disconnect();
+  envelopeIo = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.2) {
+        envelope.classList.add('open');
+      } else {
+        envelope.classList.remove('open');
+      }
+    });
+  }, { threshold: [0, 0.2, 0.5] });
+  envelopeIo.observe(envelope);
+}
+// Initialize envelope animation
+initEnvelopeAnim();
+
+/* ══════════════════════════════════════════════════
    WEDDING COLORS — PICK INTERACTION
 ══════════════════════════════════════════════════ */
 let selectedColor = null;
@@ -1456,7 +1477,7 @@ async function submitRSVP() {
   };
 
   try {
-    const res = await fetch('https://wedding-backend-production-54c0.up.railway.app', {
+    const res = await fetch('https://api.invitevibes.in/api/rsvp', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -1482,5 +1503,3 @@ async function submitRSVP() {
 </script>
 </body>
 </html>
-
-
