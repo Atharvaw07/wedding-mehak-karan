@@ -14,17 +14,17 @@
 
 <style>
 :root {
-  --cream:       #FDF8F5;
-  --cream-2:     #F7EEE9;
-  --cream-3:     #EFE2DB;
+  --cream:       #FDF5F7;
+  --cream-2:     #FAF0F3;
+  --cream-3:     #F5E0E8;
   
-  /* Modern Green Gradient / Sage Theme */
-  --sage:        #5F7A61;
-  --sage-dark:   #445D48;
-  --sage-deep:   #2E3F32;
-  --sage-light:  #7E9980;
-  --sage-pale:   #EBF0EC;
-  --sage-border: #B2C4B4;
+  /* Pink / Rose Theme */
+  --sage:        #C4728A;
+  --sage-dark:   #A05070;
+  --sage-deep:   #7A3050;
+  --sage-light:  #D4889E;
+  --sage-pale:   #FAEDF1;
+  --sage-border: #E8B8C8;
   
   --gold:        #C2A878;
   --gold-light:  #DCD0B3;
@@ -32,10 +32,10 @@
   --text-dark:   #1C1C1C;
   --text-mid:    #4A4A4A;
   --text-light:  #888;
-  --border:      #E4D0CB;
+  --border:      #F0C8D4;
   --white:       #FFFFFF;
-  --shadow:      0 24px 64px -12px rgba(46, 63, 50, 0.15);
-  --shadow-sm:   0 8px 24px rgba(46, 63, 50, 0.08);
+  --shadow:      0 24px 64px -12px rgba(122, 48, 80, 0.12);
+  --shadow-sm:   0 8px 24px rgba(122, 48, 80, 0.07);
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -48,7 +48,7 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 #audio-btn svg{width:20px;height:20px;color:var(--sage-dark)}
 
 /* ── SHIMMER ───────────────────────────────────── */
-.shimmer{background:linear-gradient(105deg,var(--sage-deep) 15%,var(--sage-dark) 30%,var(--sage) 45%,#8AA88C 55%,var(--sage-dark) 70%,var(--sage-deep) 85%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4.5s linear infinite}
+.shimmer{background:linear-gradient(105deg,var(--sage-deep) 15%,var(--sage-dark) 30%,var(--sage) 45%,#D8A0B8 55%,var(--sage-dark) 70%,var(--sage-deep) 85%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4.5s linear infinite}
 @keyframes shimmer{to{background-position:200% center}}
 
 /* ── PETALS ────────────────────────────────────── */
@@ -108,7 +108,7 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 
 /* ── HERO ──────────────────────────────────────── */
 #hero{position:relative;min-height:100dvh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--cream-2);padding:3rem 1rem}
-#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 120% 80% at 50% 0%,rgba(168,197,160,.18) 0%,transparent 65%)}
+#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 120% 80% at 50% 0%,rgba(212,136,158,.18) 0%,transparent 65%)}
 .hero-corner{position:absolute;inset:1.25rem;pointer-events:none;z-index:2}
 .hero-corner::before,.hero-corner::after,.hero-corner span::before,.hero-corner span::after{content:'';position:absolute;width:54px;height:54px;border-color:var(--gold);border-style:solid;opacity:.7}
 .hero-corner::before{top:0;left:0;border-width:2px 0 0 2px}
@@ -116,7 +116,7 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 .hero-corner span::before{bottom:0;left:0;border-width:0 0 2px 2px}
 .hero-corner span::after{bottom:0;right:0;border-width:0 2px 2px 0}
 
-.hero-card{position:relative;z-index:3;max-width:620px;width:100%;background:rgba(253,251,247,.93);backdrop-filter:blur(18px);border:1px solid rgba(194,168,120,.32);border-radius:2.2rem;padding:clamp(3rem,6vw,4rem) clamp(1.5rem,5vw,3rem);box-shadow:var(--shadow),0 0 0 4px rgba(126, 153, 128,.1) inset;text-align:center;display:flex;flex-direction:column;align-items:center;overflow:visible}
+.hero-card{position:relative;z-index:3;max-width:620px;width:100%;background:rgba(253,251,247,.93);backdrop-filter:blur(18px);border:1px solid rgba(194,168,120,.32);border-radius:2.2rem;padding:clamp(3rem,6vw,4rem) clamp(1.5rem,5vw,3rem);box-shadow:var(--shadow),0 0 0 4px rgba(196,114,138,.08) inset;text-align:center;display:flex;flex-direction:column;align-items:center;overflow:visible}
 
 .ek-onkar-sign {
   font-size: 3.5rem;
@@ -150,8 +150,8 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 .scratch-unit{display:flex;flex-direction:column;align-items:center;gap:12px}
 .scratch-lbl{font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--text-light)}
 .scratch-card{position:relative;width:clamp(88px,23vw,126px);height:clamp(128px,28vw,172px);border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--white);box-shadow:var(--shadow)}
-.scratch-card .scratch-canvas{background:linear-gradient(135deg,#8FAF91,#5F7A61,#445D48)}
-.scratch-card.glow{box-shadow:0 0 0 2px var(--sage-light),0 16px 40px rgba(126, 153, 128,.28);transition:box-shadow .8s}
+.scratch-card .scratch-canvas{background:linear-gradient(135deg,#D4889E,#C4728A,#A05070)}
+.scratch-card.glow{box-shadow:0 0 0 2px var(--sage-light),0 16px 40px rgba(196,114,138,.28);transition:box-shadow .8s}
 .scratch-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:var(--white);z-index:1}
 .sc-val{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(21px,5.5vw,32px);color:var(--sage-dark);line-height:1.1;text-align:center;padding:0 5px}
 .sc-rule{width:36px;height:1px;background:var(--sage-border);margin:5px auto 0}
@@ -293,7 +293,7 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 .laavan-desc{font-family:'Cormorant Garamond',serif;font-size:.97rem;color:var(--text-mid);line-height:1.7;font-style:italic}
 
 /* ── RSVP ─────────────────────────────────────────── */
-#rsvp-section{padding:6rem 1.5rem;background:url('data:image/svg+xml,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="%235F7A61" fill-opacity="0.08"/></svg>'),var(--sage-pale);border-top:1px solid var(--sage-border)}
+#rsvp-section{padding:6rem 1.5rem;background:url('data:image/svg+xml,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="%23C4728A" fill-opacity="0.08"/></svg>'),var(--sage-pale);border-top:1px solid var(--sage-border)}
 .rsvp-wrap{max-width:540px;margin:3rem auto 0;background:rgba(255,255,255,0.9);backdrop-filter:blur(10px);border-radius:2rem;padding:3.5rem 2.5rem;border:1px solid var(--sage-border);box-shadow:var(--shadow)}
 .rsvp-field{display:flex;flex-direction:column;gap:8px;margin-bottom:1.5rem}
 .rsvp-field label{font-family:'Montserrat',sans-serif;font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--sage-deep)}
@@ -459,7 +459,7 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 
       <p class="ardas-text">"They alone are called husband and wife, who have one soul in two bodies."<br>— Guru Amar Das Ji</p>
       <p class="ardas-text">With the heavenly blessings of Grand Parents <br>
-      Late Sdn. Trilochan Kaur & Sdr. Hardeep Singh Khanna<br> We request the honour of your presence at the wedding celebrations of</p>
+      Late Sdn. Sawinder Bedi & Late Mahant Mohan Dass Ji<br> We request the honour of your presence at the wedding celebrations of</p>
 
       <span class="couple-name shimmer">Mehak Bedi</span>
       <span class="parent-sub">Daughter of Satinder Bedi & Dr. Narinder Bedi</span>
@@ -543,12 +543,12 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
           <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/ChatGPT%20Image%20Jun%2016%2C%202026%2C%2007_22_48%20PM.png" alt="Wedding Venue">
         </div>
         <p style="font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--sage-dark); margin-bottom: 0.5rem; font-weight: 600;">
-          Gurudwara Sri Guru Harrai Sahib Ji
+          Seven Seas Banquet
         </p>
         <p style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--text-mid); margin-bottom: 1.5rem; line-height: 1.6;">
-          C-20, Mahendru Enclave, Near Chhatra Stadium<br>Gujranwala Town, New Delhi
+          Gujranwala Town, New Delhi
         </p>
-        <a class="dir-btn" style="padding: 0.8rem 2rem; font-size: 0.7rem;" href="https://maps.app.goo.gl/StkfBcTadGfAaQLe9" target="_blank" rel="noopener">
+        <a class="dir-btn" style="padding: 0.8rem 2rem; font-size: 0.7rem;" href="https://maps.app.goo.gl/Uue5HXWFj2Z7EU6c9?g_st=iw" target="_blank" rel="noopener">
           <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
           Open in Google Maps
         </a>
@@ -586,9 +586,9 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
         <div class="evt-card reveal reveal-d1">
           <div class="evt-info">
             <span class="evt-name">Sukhmani Sahib Path</span>
-            <span class="evt-time">Morning onwards</span>
-            <span class="evt-addr">At Residence: <br>C-45, Mahendru Enclave, New Delhi</span>
-            <a class="dir-btn" href="https://maps.app.goo.gl/StkfBcTadGfAaQLe9" target="_blank" rel="noopener">
+            <span class="evt-time">10:00 AM onwards</span>
+            <span class="evt-addr">Shri Guru Teg Bahadur Sahib Ji Gurudwara,<br>Jalandhar Road Batala, Near Gaushala</span>
+            <a class="dir-btn" href="https://maps.app.goo.gl/VHUdNN3eY66otUvcA?g_st=iw" target="_blank" rel="noopener">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               View on Map
             </a>
@@ -598,7 +598,7 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 
       <div class="event-block reveal" style="margin-top: 5rem;">
         <div class="evt-img">
-          <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/293.png" alt="Sangeet Night">
+          <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/new/Best%20Event%20cards%20%20(39).png" alt="Sangeet Night">
         </div>
         <div class="evt-card reveal reveal-d1">
           <div class="evt-info">
@@ -617,14 +617,14 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 
       <div class="event-block reveal">
         <div class="evt-img">
-          <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/294.png" alt="Bangle Ceremony">
+          <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/new/Best%20Event%20cards%20%20(40).png" alt="Bangle Ceremony">
         </div>
         <div class="evt-card reveal reveal-d1">
           <div class="evt-info">
             <span class="evt-name">Bangle Ceremony</span>
-            <span class="evt-time">12:00 PM onwards</span>
-            <span class="evt-addr">At Residence: <br>C-45, Mahendru Enclave, New Delhi</span>
-            <a class="dir-btn" href="https://maps.app.goo.gl/StkfBcTadGfAaQLe9" target="_blank" rel="noopener">
+            <span class="evt-time">7:00 PM onwards</span>
+            <span class="evt-addr">Green Galaxy Villa,<br>Inside Garden Enclave, Opp. Guru Teg Bahadur School,<br>Khankot, Amritsar</span>
+            <a class="dir-btn" href="https://maps.app.goo.gl/VHUdNN3eY66otUvcA?g_st=iw" target="_blank" rel="noopener">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               View on Map
             </a>
@@ -636,14 +636,14 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 
       <div class="event-block reveal">
         <div class="evt-img">
-          <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/295.png" alt="Haldi & Mehndi">
+          <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/new/Best%20Event%20cards%20%20(41).png" alt="Haldi & Mehndi">
         </div>
         <div class="evt-card reveal reveal-d1">
           <div class="evt-info">
             <span class="evt-name">Haldi & Mehndi</span>
             <span class="evt-time">11:30 AM onwards</span>
-            <span class="evt-addr">Grand Imperia North Banquet, Ashok Vihar, Delhi</span>
-            <a class="dir-btn" href="https://maps.app.goo.gl/StkfBcTadGfAaQLe9" target="_blank" rel="noopener">
+            <span class="evt-addr">Grand Imperia North Banquet,<br>7, Opp. Gujranwala Town, near Saya Auto Maruti Showroom,<br>GT Karnal Road Industrial Area, Ashok Vihar, Delhi</span>
+            <a class="dir-btn" href="https://maps.app.goo.gl/Uue5HXWFj2Z7EU6c9?g_st=iw" target="_blank" rel="noopener">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               View on Map
             </a>
@@ -659,8 +659,8 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
           <div class="evt-info">
             <span class="evt-name">Choora Ceremony</span>
             <span class="evt-time">4:00 PM</span>
-            <span class="evt-addr">At Residence: <br>C-45, Mahendru Enclave, New Delhi</span>
-            <a class="dir-btn" href="https://maps.app.goo.gl/StkfBcTadGfAaQLe9" target="_blank" rel="noopener">
+            <span class="evt-addr">Shri Guru Teg Bahadur Sahib Ji Gurudwara,<br>Jalandhar Road Batala, Near Gaushala</span>
+            <a class="dir-btn" href="https://maps.app.goo.gl/VHUdNN3eY66otUvcA?g_st=iw" target="_blank" rel="noopener">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               View on Map
             </a>
@@ -674,14 +674,14 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 
       <div class="event-block reveal">
         <div class="evt-img">
-          <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/297.png" alt="Anand Karaj">
+          <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/new/Best%20Event%20cards%20%20(42).png" alt="Anand Karaj">
         </div>
         <div class="evt-card sage reveal reveal-d1">
           <div class="evt-info">
             <span class="evt-name" style="font-size:clamp(2.4rem,6vw,3.2rem)">Anand Karaj</span>
             <span class="evt-time" style="color:var(--sage-dark)">10:00 AM</span>
-            <span class="evt-addr">Gurudwara Sri Guru Harrai Sahib Ji<br>Gujranwala Town, New Delhi</span>
-            <a class="dir-btn" href="https://maps.app.goo.gl/StkfBcTadGfAaQLe9" target="_blank" rel="noopener">
+            <span class="evt-addr">Seven Seas Banquet,<br>Gujranwala Town, New Delhi</span>
+            <a class="dir-btn" href="https://maps.app.goo.gl/Uue5HXWFj2Z7EU6c9?g_st=iw" target="_blank" rel="noopener">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               View on Map
             </a>
@@ -691,14 +691,14 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 
       <div class="event-block reveal" style="margin-top: 5rem;">
         <div class="evt-img">
-          <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/298.png" alt="Lunch">
+          <img src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/new/Best%20Event%20cards%20%20(43).png" alt="Lunch">
         </div>
         <div class="evt-card sage reveal reveal-d1">
           <div class="evt-info">
             <span class="evt-name">Lunch</span>
             <span class="evt-time" style="color:var(--sage-dark)">12:00 PM</span>
-            <span class="evt-addr">Gurudwara Sri Guru Harrai Sahib Ji<br>Gujranwala Town, New Delhi</span>
-            <a class="dir-btn" href="https://maps.app.goo.gl/StkfBcTadGfAaQLe9" target="_blank" rel="noopener">
+            <span class="evt-addr">Seven Seas Banquet,<br>Gujranwala Town, New Delhi</span>
+            <a class="dir-btn" href="https://maps.app.goo.gl/Uue5HXWFj2Z7EU6c9?g_st=iw" target="_blank" rel="noopener">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               View on Map
             </a>
@@ -714,8 +714,8 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
           <div class="evt-info">
             <span class="evt-name">Doli</span>
             <span class="evt-time" style="color:var(--sage-dark)">4:00 PM</span>
-            <span class="evt-addr">Gurudwara Sri Guru Harrai Sahib Ji<br>Gujranwala Town, New Delhi</span>
-            <a class="dir-btn" href="https://maps.app.goo.gl/StkfBcTadGfAaQLe9" target="_blank" rel="noopener">
+            <span class="evt-addr">Seven Seas Banquet,<br>Gujranwala Town, New Delhi</span>
+            <a class="dir-btn" href="https://maps.app.goo.gl/Uue5HXWFj2Z7EU6c9?g_st=iw" target="_blank" rel="noopener">
               <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               View on Map
             </a>
@@ -728,7 +728,7 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
           <span class="sec-label" style="color:var(--sage)">Wedding Day Schedule</span>
           <h2 class="sec-heading" style="font-size:clamp(2.4rem,7vw,4rem); font-family: 'Great Vibes', cursive;">December 02, 2026</h2>
           <p style="font-style:italic;color:var(--text-mid);font-size:1.05rem;margin-bottom:.5rem">
-            Wedding color theme: <strong style="color:var(--sage-dark)">Sage Green</strong>  ·  All colors welcome
+            Wedding color theme: <strong style="color:var(--sage-dark)">Pink & Rose</strong>  ·  All colors welcome
           </p>
         </div>
         <div class="tl-wrap">
@@ -1201,7 +1201,7 @@ function setupScratch(canvasId, num, onDone, unit) {
     ctx.setTransform(1,0,0,1,0,0); ctx.scale(dpr,dpr);
     /* Green gradient overlay */
     const g=ctx.createLinearGradient(0,0,W,H);
-    g.addColorStop(0,'#8FAF91'); g.addColorStop(.5,'#5F7A61'); g.addColorStop(1,'#445D48');
+    g.addColorStop(0,'#D4889E'); g.addColorStop(.5,'#C4728A'); g.addColorStop(1,'#A05070');
     ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
     /* Subtle sparkle dots */
     ctx.fillStyle='rgba(255,255,255,0.07)';
