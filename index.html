@@ -98,6 +98,26 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 #play-overlay{position:absolute;inset:0;z-index:2;pointer-events:auto;opacity:0;cursor:pointer;}
 #entry-gate.fade-out{opacity:0;pointer-events:none}
 
+/* ── ENTRY LOADER (shown while the envelope video buffers) ── */
+#entry-loader{
+  position:absolute;inset:0;z-index:6;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:#1a0a0f;text-align:center;padding:2rem;
+  transition:opacity .7s ease;
+}
+#entry-loader.hide{opacity:0;pointer-events:none}
+.loader-ring{
+  width:52px;height:52px;border-radius:50%;
+  border:2px solid rgba(220,208,179,.16);
+  border-top-color:var(--gold);
+  animation:loader-spin .9s linear infinite;
+  margin-bottom:1.7rem;
+}
+@keyframes loader-spin{to{transform:rotate(360deg)}}
+.loader-names{font-family:'Pinyon Script',cursive;font-size:2.2rem;line-height:1;color:#E9D9B8;margin-bottom:.8rem}
+.loader-sub{font-family:'Montserrat',sans-serif;font-size:.58rem;letter-spacing:.34em;text-transform:uppercase;color:rgba(220,208,179,.6)}
+
+
 #main-content{display:none}
 #main-content.visible{display:block}
 
@@ -475,6 +495,12 @@ video::-internal-media-controls-download-button {
     <source src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/Best%20Entry%20Video%20(46).mp4" type="video/mp4">
   </video>
   <div id="play-overlay"></div>
+
+  <div id="entry-loader">
+    <div class="loader-ring"></div>
+    <div class="loader-names">Mehak &amp; Karan</div>
+    <div class="loader-sub">loading your invitation</div>
+  </div>
 </div>
 
 <div id="main-content">
@@ -1105,6 +1131,15 @@ const mainEl     = document.getElementById('main-content');
 const petalCvs   = document.getElementById('petals-canvas');
 let revealed     = false;
 let posterPainted = false;
+const entryLoader = document.getElementById('entry-loader');
+let gateReady     = false;
+
+// Hide the spinner once the envelope is ready (tap prompt already lives on the video)
+function showGateReady() {
+  if (gateReady || revealed) return;
+  gateReady = true;
+  if (entryLoader) entryLoader.classList.add('hide');
+}
 
 function sizePoster() {
   posterCvs.width  = window.innerWidth;
@@ -1123,6 +1158,7 @@ function paintPoster() {
     if (hasPixels) {
       posterPainted = true;
       posterCvs.style.opacity = '1';
+      showGateReady();
     }
   } catch(e) { }
 }
@@ -1133,6 +1169,9 @@ function showVideo() {
 }
 
 entryVid.load();
+entryVid.addEventListener('canplay', showGateReady);
+// Safety net: never trap a guest on the spinner — reveal the tap prompt after 12s regardless
+setTimeout(showGateReady, 12000);
 entryVid.addEventListener('loadedmetadata', () => { entryVid.currentTime = 0.001; });
 // Only paint poster when seeked, DO NOT autoplay
 entryVid.addEventListener('seeked', () => {
@@ -1145,6 +1184,7 @@ entryVid.addEventListener('loadeddata', () => {
 
 gate.addEventListener('click', async () => {
   if (revealed) return;
+  if (entryLoader) entryLoader.classList.add('hide');
   
   // Start Playing ONLY on tap
   try {
