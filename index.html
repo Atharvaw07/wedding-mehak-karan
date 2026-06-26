@@ -215,8 +215,17 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 /* ── STORY / SWIPER SECTION ─────────────────────── */
 #story-section{background:linear-gradient(180deg,var(--cream),var(--sage-pale) 30%,var(--cream) 70%); padding: 5rem 1.5rem; border-top: 1px solid var(--border);}
 .story-wrap{max-width:600px; margin:0 auto; text-align:center;}
-.swiper-video-box { width: 100%; max-width: 340px; margin: 3rem auto 0; border-radius: 1.5rem; overflow: hidden; border: 1px solid var(--gold-light); box-shadow: var(--shadow); background: #000; }
-.swiper-video-box video { width: 100%; height: auto; display: block; object-fit: cover; pointer-events: none; }
+.swiper-video-box { position: relative; width: 100%; max-width: 340px; aspect-ratio: 9 / 16; margin: 3rem auto 0; border-radius: 1.5rem; overflow: hidden; border: 1px solid var(--gold-light); box-shadow: var(--shadow); background: linear-gradient(135deg, var(--cream-2), var(--cream-3)); }
+.swiper-video-box video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; pointer-events: none; opacity: 0; transition: opacity .6s ease; }
+.swiper-video-box.is-playing video { opacity: 1; }
+/* soft shimmer while the clip is buffering */
+.swiper-video-box::before { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.45) 50%, transparent 70%); background-size: 220% 100%; animation: vid-shimmer 1.8s ease-in-out infinite; opacity: 1; transition: opacity .5s ease; pointer-events: none; }
+.swiper-video-box.is-playing::before { opacity: 0; }
+@keyframes vid-shimmer { 0%{background-position:120% 0} 100%{background-position:-120% 0} }
+/* tap-to-play fallback (only shown if autoplay is blocked) */
+.story-play-btn { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 64px; height: 64px; border-radius: 50%; border: none; background: rgba(44,44,44,.55); color: #fff; font-size: 1.5rem; display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 3; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.swiper-video-box.needs-tap .story-play-btn { display: flex; }
+.swiper-video-box.needs-tap::before { opacity: 0; }
 
 /* ===== GLOBAL VIDEO HARDENING (Vivo / Oppo / Realme / Samsung / in-app browsers) ===== */
 video {
@@ -582,9 +591,10 @@ video::-internal-media-controls-download-button {
         <p style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.1rem; color:var(--text-mid); margin-top:1rem;">
           Writing the very first pages of our beautiful forever together.
         </p>
-        <div class="swiper-video-box">
+        <div class="swiper-video-box" id="story-video-box">
           <video
-            autoplay muted loop playsinline
+            id="story-video"
+            muted loop playsinline
             webkit-playsinline
             x-webkit-airplay="deny"
             disablePictureInPicture
@@ -595,6 +605,7 @@ video::-internal-media-controls-download-button {
           >
             <source src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/Swiper%20video%20(5).mp4" type="video/mp4">
           </video>
+          <button class="story-play-btn" type="button" aria-label="Play video">►</button>
         </div>
       </div>
     </section>
@@ -1527,23 +1538,71 @@ async function submitRSVP() {
   }
 }
 
-/* ===== Block long-press download menu on stubborn Android browsers (Vivo/Oppo/Realme) ===== */
-(function hardenVideos(){
+/* ===== Robust autoplay + download-hardening for story video (Vivo/Oppo/Realme/Samsung) ===== */
+(function storyVideo(){
   function block(e){ e.preventDefault(); e.stopPropagation(); return false; }
-  function apply(){
-    document.querySelectorAll('video').forEach(function(v){
-      v.setAttribute('controlsList','nodownload noplaybackrate nofullscreen noremoteplayback');
-      v.setAttribute('disablePictureInPicture','');
-      v.disablePictureInPicture = true;
-      v.controls = false;
-      v.addEventListener('contextmenu', block);
-      // some Android skins fire a long-press selection before the menu
-      v.addEventListener('dragstart', block);
+
+  // generic hardening for every video on the page
+  function harden(v){
+    v.setAttribute('controlsList','nodownload noplaybackrate nofullscreen noremoteplayback');
+    v.setAttribute('disablePictureInPicture','');
+    try { v.disablePictureInPicture = true; } catch(e){}
+    v.controls = false;
+    v.addEventListener('contextmenu', block);
+    v.addEventListener('dragstart', block);
+  }
+
+  function init(){
+    document.querySelectorAll('video').forEach(harden);
+
+    var box = document.getElementById('story-video-box');
+    var v   = document.getElementById('story-video');
+    if(!box || !v) return;
+    var btn = box.querySelector('.story-play-btn');
+
+    v.muted = true;                 // muted is mandatory for inline autoplay
+    v.setAttribute('muted','');
+    try { v.load(); } catch(e){}    // force the source to (re)load — needed by some webviews
+
+    v.addEventListener('playing', function(){
+      box.classList.add('is-playing');
+      box.classList.remove('needs-tap');
+    });
+
+    function tryPlay(){
+      v.muted = true;
+      var p = v.play();
+      if(p && p.catch){
+        p.catch(function(){ box.classList.add('needs-tap'); });
+      }
+    }
+
+    // play only when the section is on screen (saves data, avoids early-block)
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){ tryPlay(); }
+          else { try { v.pause(); } catch(err){} }
+        });
+      }, { threshold: 0.25 });
+      io.observe(v);
+    } else {
+      tryPlay();
+    }
+
+    // fallback: explicit tap on the button or the box
+    if(btn) btn.addEventListener('click', tryPlay);
+    box.addEventListener('click', function(){ if(v.paused) tryPlay(); });
+
+    // some browsers only unlock autoplay after the first touch anywhere on the page
+    ['touchstart','click'].forEach(function(ev){
+      window.addEventListener(ev, function once(){ if(v.paused) tryPlay(); }, { once:true, passive:true });
     });
   }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', apply);
-  } else { apply(); }
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
 })();
 </script>
 </body>
