@@ -216,7 +216,26 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
 #story-section{background:linear-gradient(180deg,var(--cream),var(--sage-pale) 30%,var(--cream) 70%); padding: 5rem 1.5rem; border-top: 1px solid var(--border);}
 .story-wrap{max-width:600px; margin:0 auto; text-align:center;}
 .swiper-video-box { width: 100%; max-width: 340px; margin: 3rem auto 0; border-radius: 1.5rem; overflow: hidden; border: 1px solid var(--gold-light); box-shadow: var(--shadow); background: #000; }
-.swiper-video-box video { width: 100%; height: auto; display: block; object-fit: cover; }
+.swiper-video-box video { width: 100%; height: auto; display: block; object-fit: cover; pointer-events: none; }
+
+/* ===== GLOBAL VIDEO HARDENING (Vivo / Oppo / Realme / Samsung / in-app browsers) ===== */
+video {
+  -webkit-touch-callout: none;   /* no long-press "save video" callout on iOS/Android */
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+/* Hide the native download / overflow control some Android skins force-render */
+video::-webkit-media-controls,
+video::-webkit-media-controls-enclosure,
+video::-webkit-media-controls-overflow-button,
+video::-internal-media-controls-download-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
 
 /* ── EVENTS ─────────────────────────────────────── */
 #events-section{padding:5rem 1.5rem;background:var(--cream);border-top:1px solid var(--border)}
@@ -564,7 +583,16 @@ body{background:var(--cream);color:var(--text-dark);font-family:'Cormorant Garam
           Writing the very first pages of our beautiful forever together.
         </p>
         <div class="swiper-video-box">
-          <video autoplay muted loop playsinline>
+          <video
+            autoplay muted loop playsinline
+            webkit-playsinline
+            x-webkit-airplay="deny"
+            disablePictureInPicture
+            disableRemotePlayback
+            controlsList="nodownload noplaybackrate nofullscreen noremoteplayback"
+            preload="auto"
+            oncontextmenu="return false;"
+          >
             <source src="https://pub-1953a6673e864f3488c645252f75de98.r2.dev/June/Karan%20%26%20Mehak%20-%202nd%20dec/2nd/Swiper%20video%20(5).mp4" type="video/mp4">
           </video>
         </div>
@@ -1498,6 +1526,25 @@ async function submitRSVP() {
     spinner.style.display = 'none';
   }
 }
+
+/* ===== Block long-press download menu on stubborn Android browsers (Vivo/Oppo/Realme) ===== */
+(function hardenVideos(){
+  function block(e){ e.preventDefault(); e.stopPropagation(); return false; }
+  function apply(){
+    document.querySelectorAll('video').forEach(function(v){
+      v.setAttribute('controlsList','nodownload noplaybackrate nofullscreen noremoteplayback');
+      v.setAttribute('disablePictureInPicture','');
+      v.disablePictureInPicture = true;
+      v.controls = false;
+      v.addEventListener('contextmenu', block);
+      // some Android skins fire a long-press selection before the menu
+      v.addEventListener('dragstart', block);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', apply);
+  } else { apply(); }
+})();
 </script>
 </body>
 </html>
